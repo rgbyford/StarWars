@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    body {
+        background-color: lightblue;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+
+    .picture {
+        color: black;
+        font-weight: bold;
+        display: flex;
+    }
+
+    .fighterpic {
+        border: 25px solid white;
+        height: 150px;
+        width: 140px;
+        margin-left: 20px;
+    }
+
+    .name-caption {
+        font-size: 11pt;
+        position: relative;
+        top: 22px;
+        text-align: center;
+    }
+
+    .points-caption {
+        font-size: 11pt;
+        bottom: 25px;
+        position: relative;
+        text-align: center;
+    }
+
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .test {
+        /*        text-align: center;*/
+
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous"> -->
+    <title>Star Wars</title>
+</head>
+
+<body>
+    <div class="picture">
+        <div class="Luke1">
+            <div class="name-caption">Luke Skywalker</div>
+            <img class="fighterpic" id="Luke1" src="assets/images/Luke.jpg">
+            <div class="points-caption">120</div>
+        </div>
+        <div class="Obi1">
+            <div class="name-caption">Obi-Wan Kenobi</div>
+            <img class="fighterpic" id="Obi1" src="assets/images/Obi.jpg">
+            <div class="points-caption">140</div>
+        </div>
+        <div class="Maul1">
+            <div class="name-caption">Darth Maul</div>
+            <img class="fighterpic" id="Maul1" src="assets/images/Maul.jpg">
+            <div class="points-caption">100</div>
+        </div>
+        <div class="Sidi1">
+            <div class="name-caption">Darth Sidious</div>
+            <img class="fighterpic" id="Sidi1" src="assets/images/Sidi.jpg">
+            <div class="points-caption">80</div>
+        </div>
+    </div>
+    <h2>Your Character</h2>
+    <div class="picture">
+        <div class="Luke2">
+            <div class="name-caption">Luke Skywalker</div>
+            <img class="fighterpic" id="Luke2" src="assets/images/Luke.jpg">
+            <div class="points-caption">120</div>
+        </div>
+        <div class="Obi2">
+            <div class="name-caption">Obi-Wan Kenobi</div>
+            <img class="fighterpic" id="Obi2" src="assets/images/Obi.jpg">
+            <div class="points-caption">140</div>
+        </div>
+        <div class="Maul2">
+            <div class="name-caption">Darth Maul</div>
+            <img class="fighterpic" id="Maul2" src="assets/images/Maul.jpg">
+            <div class="points-caption">100</div>
+        </div>
+        <div class="Sidi2">
+            <div class="name-caption">Darth Sidious</div>
+            <img class="fighterpic" id="Sidi2" src="assets/images/Sidi.jpg">
+            <div class="points-caption">80</div>
+        </div>
+    </div>
+</body>
+<script src="assets/javascript/starwars.js">
+
+</script>
+
+</html>
