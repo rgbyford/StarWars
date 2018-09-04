@@ -1,0 +1,45 @@
+
+body {
+    background-color: lightblue;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding-left: 20px;
+}
+
+.image-headings {
+    display: inline-block;
+    width: 260px;
+    padding-left: 20px;
+}
+
+.picture {
+    color: black;
+    font-weight: bold;
+    display: flex;
+}
+
+.fighterpic {
+    border: 25px solid white;
+    height: 150px;
+    width: 140px;
+    margin-left: 20px;
+}
+
+.name-caption {
+    font-size: 11pt;
+    position: relative;
+    top: 22px;
+    text-align: center;
+}
+
+.points-caption {
+    font-size: 11pt;
+    bottom: 25px;
+    position: relative;
+    text-align: center;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
