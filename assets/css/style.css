@@ -1,8 +1,19 @@
 
-body {
-    background-color: lightblue;
+html, body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     padding-left: 20px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 100%;
+}
+
+h2 span {
+    margin-bottom: 5px;
+    background-color: #AEA6B1;
+}
+p span {
+    color: black;
+    background-color: #AEA6B1;
 }
 
 .image-headings {
@@ -43,3 +54,7 @@ body {
     clear: both;
     display: table;
 }
+
+#restartBtn{
+    margin-left: 60px;
+  }

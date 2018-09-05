@@ -40,6 +40,7 @@ $(document).ready(function () {
     $("#defenders").hide();
     $("#yourChar").hide();
     $("#against").hide();
+    //    $("#fightText1").css("visibility", "hidden");
 
     // have to do these with .on for game restart
     $(document).on("click", "img#Luke0", function () {
@@ -71,14 +72,42 @@ $(document).ready(function () {
         moveCharForFight(Sidi);
         Fighter1 = Sidi;
     });
-    
+
     $(document).on("click", "#attackBtn", function () {
         fight();
     });
-    
+
     var damage1 = 8;
     var defeated = 0;
 
+// A jQuery plugin
+    (function ($) {
+        $.fn.invisible = function () {
+            return this.each(function () {
+                $(this).css("visibility", "hidden");
+                return this;
+            });
+        };
+        $.fn.visible = function () {
+            return this.each(function () {
+                $(this).css("visibility", "visible");
+                return this;
+            });
+        };
+    }(jQuery));
+
+    $("#fightText1").invisible();
+
+    // jQuery functions
+    function invisible(item) {
+        item.css("visibility", "hidden");
+    }
+
+    function visible (item) {
+        item.css("visibility", "visibel");
+    }
+
+    invisible($('#fightText2'));
 
     // the restart button routine
     $(document).on("click", "#restartBtn", function () {
@@ -88,8 +117,10 @@ $(document).ready(function () {
             $(warriors[key].className1).remove();
             $(warriors[key].className2).remove();
         });
-        $("#fightText1").html('&nbsp;'); // hide the text, but leave room for it
-        $("#fightText2").html('&nbsp;');
+        $("#fightText1").invisible();
+        $("#fightText2").invisible();
+        //        $("#fightText1").html('&nbsp;'); // hide the text, but leave room for it
+        //        $("#fightText2").html('&nbsp;');
         for (var i = 0; i < warriors.length; i++) {
             warriors[i].points = startPoints[i];
         }
@@ -97,6 +128,8 @@ $(document).ready(function () {
         $("#attackBtn").remove();
         $("#yourChar").hide();
         $("#against").hide();
+        $("#defenders").hide();
+        $("#defenders").html("<span>Pick Someone to Attack</span>");
         makeRow(0, -1, -1, "white"); // put them back to Pick a Character
         damage1 = 8;
         defeated = 0;
@@ -107,9 +140,9 @@ $(document).ready(function () {
             type: "button",
             id: "restartBtn",
             value: 'Restart',
-            style: "height: 40px;",
+            style: "height: 40px",
         });
-        $("#fightText2").append(r);
+        $(".appendReset").append(r);
     }
 
     var fighter1;
@@ -124,6 +157,8 @@ $(document).ready(function () {
             $("#fightText2").text(warriors[fighter2].name + ' attacked you back for ' + warriors[fighter2].damage + ' damage');
             $(warriors[fighter2].className1 + ' > .points-caption').text(warriors[fighter2].points);
             damage1 += 8;
+            $("#fightText1").visible();
+            $("#fightText2").visible();
         } else if (warriors[fighter1].points < 0) {
             // you lose (even if the other guy also has <0 points)
             if (warriors[fighter2].points < 0) {
@@ -131,7 +166,9 @@ $(document).ready(function () {
             } else {
                 $("#fightText1").text('You lose! :-( Game over!!!');
             }
-            $("#fightText2").html('&nbsp;'); // kill off whatever fT2 was saying
+            $("#fightText2").invisible();
+            //            $("#fightText2").html(''); // kill off whatever fT2 was saying
+            // adjust the points captions
             $(warriors[fighter1].className1 + ' > .points-caption').text(warriors[fighter1].points);
             $(warriors[fighter2].className1 + ' > .points-caption').text(warriors[fighter2].points);
             $("#attackBtn").remove(); // image will move left
@@ -146,14 +183,15 @@ $(document).ready(function () {
             $(warriors[fighter2].className1 + ' > .points-caption').text(warriors[fighter2].points);
             if (defeated >= 3) {
                 $("#fightText1").text('You won!!!! Game over!!!');
-                $("#fightText2").html('&nbsp;');
+                $("#fightText2").invisible();
+                //                $("#fightText2").html('');
                 $("#defenders").remove();
                 displayRestartButton();
             } else {
                 $(warriors[fighter2].className1).remove();
                 $("#fightText1").text('You have defeated ' + warriors[fighter2].name + '.');
-                $("#fightText2").html('&nbsp;');
-                $("#defenders").html("Pick Someone Else to Fight");
+                $("#fightText2").invisible();
+                $("#defenders").html('<span>Pick Someone Else to Attack</span>');
 
             }
         }
@@ -170,6 +208,8 @@ $(document).ready(function () {
         $.each(warriors, function (key, value) { // clear out the first row
             $(warriors[key].className0).remove(); // was hide
         });
+        $("#defenders").html('<span>Pick Someone to Attack</span>');
+        $("#defenders").visible();
         $("#defenders").show();
     }
 
@@ -184,14 +224,14 @@ $(document).ready(function () {
             style: "display: flex; margin-top: 100px; margin-left: 20px; height: 40px;",
         });
         $(".picture-your").append(r);
-        $("#fightText2").html('&nbsp;'); // make room for the win/lose text
-        $("#fightText1").html('&nbsp;');
+        //        $("#fightText2").html('&nbsp;'); // make room for the win/lose text
+        //        $("#fightText1").html('&nbsp;');
         makeRow(1, -1, id, "black");
         $(warriors[id].className2).remove(); // remove from the still to attack row
         if (defeated >= 2) { // none left to fight
             $("#defenders").remove();
         } else {
-            $("#defenders").text("Still Out There");
+            $("#defenders").html("<span>Still Out There</span>");
         }
     }
 
