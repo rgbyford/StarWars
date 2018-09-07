@@ -7,10 +7,11 @@ $(document).ready(function () {
     var Sidi = 3;
     var startPoints = [140, 120, 180, 150];
     var rows = ["people", "your", "enemies"];
+    var names = ["Luke", "Obi", "Maul", "Sidi"];
 
     class Warrior {
-        constructor(name, startPoints, damage, picture, firstName) {
-            this.name = name;
+        constructor(fullName, startPoints, damage, picture, firstName) {
+            this.fullName = fullName;
             this.points = startPoints;
             this.damage = damage; // the damage this fighter causes when defending
             this.picture = picture;
@@ -40,39 +41,13 @@ $(document).ready(function () {
     $("#defenders").hide();
     $("#yourChar").hide();
     $("#against").hide();
-    //    $("#fightText1").css("visibility", "hidden");
 
-    // have to do these with .on for game restart
-    $(document).on("click", "img#Luke0", function () {
-        moveCharsForFightPrep(Luke);
+    $(document).on("click", ".row0", function (event) {
+        moveCharsForFightPrep($(this).attr('name'));
     });
-    $(document).on("click", "img#Obi0", function () {
-        moveCharsForFightPrep(Obi);
+    $(document).on("click", ".row2", function (event) {
+        moveCharForFight($(this).attr('name'));
     });
-    $(document).on("click", "img#Maul0", function () {
-        moveCharsForFightPrep(Maul);
-    });
-    $(document).on("click", "img#Sidi0", function () {
-        moveCharsForFightPrep(Sidi);
-    });
-
-    $(document).on("click", "img#Luke2", function () {
-        moveCharForFight(Luke);
-        Fighter1 = Luke;
-    });
-    $(document).on("click", "img#Obi2", function () {
-        moveCharForFight(Obi);
-        Fighter1 = Obi;
-    });
-    $(document).on("click", "img#Maul2", function () {
-        moveCharForFight(Maul);
-        Fighter1 = Maul;
-    });
-    $(document).on("click", "img#Sidi2", function () {
-        moveCharForFight(Sidi);
-        Fighter1 = Sidi;
-    });
-
     $(document).on("click", "#attackBtn", function () {
         fight();
     });
@@ -80,7 +55,7 @@ $(document).ready(function () {
     var damage1 = 8;
     var defeated = 0;
 
-// A jQuery plugin
+    // A jQuery plugin - for demo purposes
     (function ($) {
         $.fn.invisible = function () {
             return this.each(function () {
@@ -98,12 +73,12 @@ $(document).ready(function () {
 
     $("#fightText1").invisible();
 
-    // jQuery functions
+    // jQuery functions to do the same thing
     function invisible(item) {
         item.css("visibility", "hidden");
     }
 
-    function visible (item) {
+    function visible(item) {
         item.css("visibility", "visibel");
     }
 
@@ -119,8 +94,6 @@ $(document).ready(function () {
         });
         $("#fightText1").invisible();
         $("#fightText2").invisible();
-        //        $("#fightText1").html('&nbsp;'); // hide the text, but leave room for it
-        //        $("#fightText2").html('&nbsp;');
         for (var i = 0; i < warriors.length; i++) {
             warriors[i].points = startPoints[i];
         }
@@ -152,9 +125,9 @@ $(document).ready(function () {
         warriors[fighter2].points -= damage1;
         warriors[fighter1].points -= warriors[fighter2].damage;
         if (warriors[fighter1].points >= 0 && warriors[fighter2].points >= 0) { // still fighting
-            $("#fightText1").text('You attacked ' + warriors[fighter2].name + ' for ' + damage1 + ' damage');
+            $("#fightText1").text('You attacked ' + warriors[fighter2].fullName + ' for ' + damage1 + ' damage');
             $(warriors[fighter1].className1 + ' > .points-caption').text(warriors[fighter1].points);
-            $("#fightText2").text(warriors[fighter2].name + ' attacked you back for ' + warriors[fighter2].damage + ' damage');
+            $("#fightText2").text(warriors[fighter2].fullName + ' attacked you back for ' + warriors[fighter2].damage + ' damage');
             $(warriors[fighter2].className1 + ' > .points-caption').text(warriors[fighter2].points);
             damage1 += 8;
             $("#fightText1").visible();
@@ -166,13 +139,13 @@ $(document).ready(function () {
             } else {
                 $("#fightText1").text('You lose! :-( Game over!!!');
             }
-            $("#fightText2").invisible();
-            //            $("#fightText2").html(''); // kill off whatever fT2 was saying
             // adjust the points captions
             $(warriors[fighter1].className1 + ' > .points-caption').text(warriors[fighter1].points);
             $(warriors[fighter2].className1 + ' > .points-caption').text(warriors[fighter2].points);
             $("#attackBtn").remove(); // image will move left
             $(warriors[fighter2].className1).css("margin-left", "80px"); // move image right to line up with text
+            $("#fightText2").invisible();
+            $("#defenders").invisible();
             displayRestartButton();
         } else { // must be the other guy who lost
             defeated++;
@@ -184,12 +157,11 @@ $(document).ready(function () {
             if (defeated >= 3) {
                 $("#fightText1").text('You won!!!! Game over!!!');
                 $("#fightText2").invisible();
-                //                $("#fightText2").html('');
-                $("#defenders").remove();
+                $("#defenders").invisible();
                 displayRestartButton();
             } else {
                 $(warriors[fighter2].className1).remove();
-                $("#fightText1").text('You have defeated ' + warriors[fighter2].name + '.');
+                $("#fightText1").text('You have defeated ' + warriors[fighter2].fullName + '.');
                 $("#fightText2").invisible();
                 $("#defenders").html('<span>Pick Someone Else to Attack</span>');
 
@@ -198,24 +170,24 @@ $(document).ready(function () {
     }
 
     // move people out of the Pick a Character row to Your Character and to Pick Someone
-    function moveCharsForFightPrep(id) {
+    function moveCharsForFightPrep(name) {
+        fighter1 = names.indexOf(name);
         $("#yourChar").show();
         $("#against").show();
         $("#pick-char").hide();
         makeRow(1, -1, id, "white"); // make the Your Char row
-        fighter1 = id;
-        makeRow(2, id, -1, "red"); // and the Pick Someone row
         $.each(warriors, function (key, value) { // clear out the first row
             $(warriors[key].className0).remove(); // was hide
         });
+        makeRow(2, fighter1, -1, "red"); // make the Pick Someone row
         $("#defenders").html('<span>Pick Someone to Attack</span>');
         $("#defenders").visible();
         $("#defenders").show();
     }
 
     // move someone from the Pick Someone to Attack row to Fighting Against
-    function moveCharForFight(id) {
-        fighter2 = id;
+    function moveCharForFight(name) {
+        fighter2 = names.indexOf(name);
         // put up the attack button
         var r = $('<input/>').attr({
             type: "button",
@@ -226,8 +198,10 @@ $(document).ready(function () {
         $(".picture-your").append(r);
         //        $("#fightText2").html('&nbsp;'); // make room for the win/lose text
         //        $("#fightText1").html('&nbsp;');
-        makeRow(1, -1, id, "black");
-        $(warriors[id].className2).remove(); // remove from the still to attack row
+        makeRow(1, -1, fighter2, "black");
+        $(warriors[fighter1].htmlId1).css("border-color", "white"); // makeRow makes it black
+        // doesn't work
+        $(warriors[fighter2].className2).remove(); // remove from the still to attack row
         if (defeated >= 2) { // none left to fight
             $("#defenders").remove();
         } else {
@@ -246,20 +220,25 @@ $(document).ready(function () {
                     var personObj = $("." + rows[rowNum]).clone();
                     $(personObj).removeClass(rows[rowNum]);
                     $(personObj).addClass(warriors[i].firstName + rowNum);
-                    $(personObj).find(".name-caption").text(warriors[i].name);
+                    $(personObj).find(".name-caption").text(warriors[i].fullName);
                     $(personObj).find(".name-caption").css("color", wordColor);
                     $(personObj).find("img").remove();
-                    $(personObj).append('<img class="fighterpic" id=' +
-                        warriors[i].firstName + rowNum + ' src=' + warriors[i].picture + '>');
+                    //                    $(personObj).append('<img name="' + warriors[i].firstName + '" class="fighterpic" id=' +
+                    //                        warriors[i].firstName + rowNum + ' src=' + warriors[i].picture + '>');
+                    $(personObj).append('<img id="' + warriors[i].firstName + '" name="' + warriors[i].firstName + '" class="fighterpic row' +
+                        rowNum + '" src=' + warriors[i].picture + '>');
                     $(personObj).find(".points-caption").remove();
                     $(personObj).append('<div class="points-caption" style="color: ' +
                         wordColor + '">' + warriors[i].points + '</div>');
                     $(personObj).show(); // in case prototype was hidden
                     $(personObj).appendTo(".picture-" + rows[rowNum]);
-                    warriors[i].setBorder(rowNum, borderColor);
+                    //                                        warriors[i].setBorder(rowNum, borderColor);
+                    console.log ('#' + warriors[i].firstName);
+                    $('#' + warriors[i].firstName).css("border-color", borderColor);
                 }
             }
         };
+//        $('.row' + rowNum).css("border-color", borderColor);
         $("." + rows[rowNum]).hide(); // hide the "prototype"
     };
 });
