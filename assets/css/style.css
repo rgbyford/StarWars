@@ -7,6 +7,11 @@ html, body {
     min-height: 100%;
 }
 
+h1 {
+    font-size: 40px;
+    color: aqua;
+}
+
 h2 span {
     margin-bottom: 5px;
     background-color: #AEA6B1;
@@ -47,12 +52,6 @@ p span {
     bottom: 25px;
     position: relative;
     text-align: center;
-}
-
-.clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
 }
 
 #restartBtn{
